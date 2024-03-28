@@ -21,4 +21,4 @@ jobs:
             cd GOPROJECT
             git pull origin jaiye/go-docker-compose
             docker compose down || true 
-            docker compose up --build -d
+            docker compose up -d
