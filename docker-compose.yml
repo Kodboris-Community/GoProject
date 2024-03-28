@@ -13,6 +13,8 @@ services:
     volumes:
       - ./database:/var/lib/postgresql/data
       - db:/docker-entrypoint-initdb.d
+    networks:
+      - kod
 
   kod-mq:
     image: rabbitmq:3-management-alpine
@@ -23,9 +25,22 @@ services:
     volumes:
        - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
        - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
-
+    networks:
+      - kod
+  app:
+    build: .
+    ports:
+      - 12000:3000
+    depends_on:
+      - kod-db
+    networks:
+      - kod
 
 volumes:
   kod-db:
   db:
     driver: local
+
+networks:
+  kod:
+    driver: bridge
