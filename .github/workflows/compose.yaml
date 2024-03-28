@@ -1,0 +1,24 @@
+name: GO Application
+
+on:
+  push:
+    branches:
+      - jaiye/go-docker-compose
+    
+jobs:
+  ssh:
+    name: SSH into the EC2 In
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login to the instance
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.JAIYE_HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.JAIYE_KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd GOPROJECT
+            git pull origin jaiye/go-docker.compose
+            docker compose down || true
+            docker compose up --build -d
