@@ -23,7 +23,12 @@ services:
     volumes:
        - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
        - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
-
+  web:
+    build: .
+    ports:
+      - 3000:8081
+    depends_on:
+      - kod-db
 
 volumes:
   kod-db:
