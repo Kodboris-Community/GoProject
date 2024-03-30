@@ -10,7 +10,7 @@ jobs:
     name: SSH into the EC2 In
     runs-on: ubuntu-latest
     steps:
-      - name: Login to the instance
+      - name: Login to the instances
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.JAIYE_HOST }}
