@@ -1,0 +1,24 @@
+name: "Continous deployment of static application"
+
+on:
+    push:
+      branches: 
+           - taiye/gitaction-goproject-statements
+
+jobs:
+  build:
+    name: SSH into the Ec2 instance
+    runs-on: ubuntu-latest
+    steps:
+      - name: log into the instance
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.TAIWO_HOST }}
+          username: ${{ secrets.TAIWO_USERNAME }}
+          key: ${{ secrets.TAIWO_KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+             cd GoProject
+             git pull goku2 taiye/gitaction-goproject-statements
+             docker compose down || true 
+             docker compose up -d
