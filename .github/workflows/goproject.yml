@@ -10,7 +10,7 @@ jobs:
     name: SSH into the Ec2 instance
     runs-on: ubuntu-latest
     steps:
-      - name: log into the instance
+      - name: log into the Ec2 instance
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.TAIWO_HOST }}
