@@ -14,10 +14,20 @@ kodboris database with the postgres user.
 
 migrate create -ext sql -dir db/migration -seq  init-schema
 
-## Copy db shcema into the migrate migration file
+## Copy db schema into the migrate migration file
 
 `Copy db schema from db/shcema.sql into *****_init-shecma.up.sql
 
-## Run migrations
+## Initialize a migration file
+`make migrate_int`
+Inject your sql data
 
-`migrate -path db/migration -database "postgresql://postgres:postgres@localhost:5432/bank?sslmode=disable" -verbose up`
+## Auto-Migration
+Auto-migration works on app start-up. Migration of schemas to the database is handled automatically
+
+`migrate -path db/migration -database "postgresql://username:password@localhost:5432/database?sslmode=disable" -verbose up`
+
+## Post Data to database
+You can use postman for this.
+Navigate to the resource url `http://localhost:3000/member`
+`{"first_name": "example", "last_name": "example"}`

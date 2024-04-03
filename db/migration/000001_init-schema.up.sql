@@ -15,5 +15,3 @@ CREATE TABLE members (
 );
 
 
-COMMENT ON COLUMN member.status IS 'Account status';
-
