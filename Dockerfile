@@ -11,5 +11,6 @@ FROM golang:1.19-alpine
 WORKDIR /app
 COPY --from=builder /app/main ./main
 COPY --from=builder /app/app.env ./app.env
+COPY --from=builder /app/db ./db
 EXPOSE 3000
 CMD ["./main"]
