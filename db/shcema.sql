@@ -24,8 +24,3 @@ CREATE TABLE accounts (
                           status account_status NOT NULL DEFAULT 'active',
                           comment varchar
 );
-
-
-COMMENT ON COLUMN accounts.status IS 'Account status';
-COMMENT ON COLUMN customer.status IS 'Customer status';
-
