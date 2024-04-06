@@ -14,28 +14,34 @@ services:
       - ./database:/var/lib/postgresql/data
       - db:/docker-entrypoint-initdb.d
     networks:
-      - kod
-#
-#  kod-mq:
-#    image: rabbitmq:3-management-alpine
-#    container_name: 'rabbitmq'
-#    ports:
-#       - 5672:5672
-#       - 15672:15672
-#    volumes:
-#       - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
-#       - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
-#    networks:
-#      - kod
-#  app:
-#    build: .
-#    command: ["sh", "-c", "/app/db-wait.sh kod-db 5432 && ./main"]
-#    ports:
-#      - 12000:3000
-#    depends_on:
-#      - kod-db
-#    networks:
-#      - kod
+      - jaiye
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  kod-mq:
+    image: rabbitmq:3-management-alpine
+    container_name: 'rabbitmq'
+    ports:
+       - 5672:5672
+       - 15672:15672
+    volumes:
+       - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+       - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    networks:
+      - jaiye
+
+  web:
+    build: .
+    ports:
+      - 3000:3000
+    depends_on:
+      kod-db:
+        condition: service_healthy
+    networks:
+      - jaiye
 
 volumes:
   kod-db:
@@ -43,5 +49,5 @@ volumes:
     driver: local
 
 networks:
-  kod:
-    driver: bridge
+    jaiye:
+       driver: bridge
